@@ -1,7 +1,7 @@
 """Pure-numpy YOLOv8 detect forward pass (TEST-ONLY: lets us verify best.pt in a sandbox with no torch).
 The real website uses Ultralytics; this only reproduces its outputs for local checking."""
 import numpy as np, cv2
-from . import ptload
+import ptload
 
 
 def P(m, k):

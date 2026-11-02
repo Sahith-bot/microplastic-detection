@@ -26,7 +26,7 @@ class Detector:
                 if engine == "ultralytics":
                     raise
         if self.engine is None:
-            from engine import npyolo
+            import npyolo
             self.model = npyolo.Net(model_path)
             self.names = {int(k): v for k, v in self.model.names.items()}
             self.engine = "numpy"
@@ -40,7 +40,7 @@ class Detector:
                 raw = [(b.tolist(), int(c), float(s)) for b, c, s in
                        zip(r.boxes.xyxy.cpu().numpy(), r.boxes.cls.cpu().numpy(), r.boxes.conf.cpu().numpy())]
             else:
-                from engine import npyolo
+                import npyolo
                 raw = npyolo.predict(self.model, bgr, conf=conf, iou=config.IOU_THRESHOLD)
         h, w = bgr.shape[:2]
         dets = []

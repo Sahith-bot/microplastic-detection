@@ -1,10 +1,5 @@
 {
-  "regions": ["bom1"],
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 60,
-      "includeFiles": "{*.py,models/**,templates/**,static/**,engine/**}"
-    }
-  },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  "builds": [{ "src": "app.py", "use": "@vercel/python" }],
+  "routes": [{ "src": "/(.*)", "dest": "app.py" }],
+  "regions": ["bom1"]
 }

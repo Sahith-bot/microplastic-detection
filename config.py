@@ -2,7 +2,7 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.environ.get("MODEL_PATH", os.path.join(BASE_DIR, "models", "best.pt"))
+MODEL_PATH = os.environ.get("MODEL_PATH", os.path.join(BASE_DIR, "best.pt"))
 
 # "auto" -> use Ultralytics if it is installed, otherwise the built-in lightweight numpy engine.
 # "ultralytics" or "numpy" to force one.

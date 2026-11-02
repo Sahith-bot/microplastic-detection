@@ -10,15 +10,17 @@ from datetime import datetime, timezone
 
 import cv2
 import numpy as np
-from flask import Flask, jsonify, render_template, request, send_file
+from flask import Flask, jsonify, render_template, request, send_file, send_from_directory
 
 import config
 import knowledge
 from detector import Detector, summarize
 from report_pdf import build_pdf
 
-app = Flask(__name__, template_folder=os.path.join(config.BASE_DIR, "templates"),
-            static_folder=os.path.join(config.BASE_DIR, "static"))
+# All files sit in one folder (flat layout). Only these front-end files are served to the browser.
+app = Flask(__name__, template_folder=config.BASE_DIR, static_folder=None)
+ASSETS = {"style.css": "text/css", "common.js": "text/javascript", "app.js": "text/javascript",
+          "report.js": "text/javascript"}
 app.config["MAX_CONTENT_LENGTH"] = config.MAX_UPLOAD_MB * 1024 * 1024
 detector = Detector()
 
@@ -30,6 +32,13 @@ def _jpeg_data_url(bgr, max_side=config.MAX_RETURN_SIDE, quality=88):
         bgr = cv2.resize(bgr, (round(w * s), round(h * s)), interpolation=cv2.INTER_AREA)
     ok, buf = cv2.imencode(".jpg", bgr, [cv2.IMWRITE_JPEG_QUALITY, quality])
     return "data:image/jpeg;base64," + base64.b64encode(buf.tobytes()).decode()
+
+
+@app.get("/static/<name>")
+def asset(name):
+    if name not in ASSETS:
+        return "Not found", 404
+    return send_from_directory(config.BASE_DIR, name, mimetype=ASSETS[name], max_age=3600)
 
 
 @app.get("/")
