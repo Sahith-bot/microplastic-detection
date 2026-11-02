@@ -1,0 +1,9 @@
+flask>=3.0
+gunicorn>=21.2
+numpy>=1.24
+opencv-python-headless>=4.8
+reportlab>=4.0
+pillow>=10.0
+# Optional: uncomment to run the model through Ultralytics/PyTorch instead of the built-in lightweight engine.
+# Needs ~2 GB RAM and a much bigger image; both engines give the same detections.
+# ultralytics>=8.1
